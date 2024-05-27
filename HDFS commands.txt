@@ -1,0 +1,71 @@
+HDFS Commands
+===============
+1. hadoop fs -ls or hdfs dfs -ls (both will lsit files/directories in home directory)
+
+2. hadoop fs -ls /user/itv****** or hdfs dfs -ls /user/itv****** (same as before)
+
+3. hadoop fs -ls / (list files and directories in the root)
+
+4. hadoop fs -ls /public
+
+5. hadoop fs -ls -t /public (newest files first)
+
+6. hadoop fs -ls -t -r (reverse order wrt time ie, oldest file first)
+
+7. hadoop fs -ls -S -h (sort according to file size in descending order and size in human readable form (-h))
+
+8. hadoop fs -ls -R /public (recursively list all the files and directories)
+
+9.  hadoopfs -ls /user | grep itv****** (example of chaining two commands using pipe)
+
+10. hadoop fs -mkdir /user/itv******/retail_db (To create a directory in HDFS)
+
+11. To create two directories, one inside another i.e., dir1 -> dir2
+	hadoop fs -mkdir /user/itv******/dir1/dir2 (Note: this will give error if dir1 does not exist)
+	hadoop fs -mkdir -p /user/itv******/dir1/dir2 (this will work)
+
+12. To remove empty directory
+	hadoop fs -rmdir retail_db or hdfs fs -rmdir /user/itv******/retail_db
+
+13. To remove non-empty directory
+	hdfs fs -rm -R dir1 or hdfs fs -rm -R /user/itv******/dir1
+
+14. To make a directory 'data' in my HDFS
+	hdfs fs -mkdir data
+	I want to bring a file from my local to data directory in HDFS
+	ls -lth /data/nyse_all/nyse_stocks
+	command to be used : put or copyFromLocal
+	hadoop fs -put <local file path> <hdfs path> or hadoop fs -copyFromLocal <local file path> <hdfs path>
+	hadoop fs -put /data/nyse_all/nyse_stocks/companylist_noheader.csv /user/itv******/data
+	or 
+	hadoop fs -copyFromLocal /data/nyse_all/nyse_stocks/companylist_noheader.csv /user/itv******/data
+
+15. hadoop fs -ls -h data (I will now see the file companylist_noheader.csv in my
+
+16. hadoop fs -tail data/companylist_noheader.csv
+
+17. To get file from HDFS to Local
+	command to be used : -get or -copyToLoal
+	hadoop fs -get /user/itv******/data/companylist_noheader.csv .
+
+18. To copy a file from one location in HDFS to other location in HDFS
+	hdfs fs -mkdir datanew
+	hadoop fs -cp /data/companylist_noheader.csv datanew
+	
+19. Cut-Paste or Move
+	hadoop fs -rm -R datanew
+	hadoop fs -mkdir datanew
+	hadoop fs -mv /data/companylist_noheader.csv datanew
+	Note: mv command just changes the metadata 
+	and not the physical movement of the data happens 
+	so it is faster than the -cp command
+	
+20. Rename
+	hadoop fs -mv datanew/companylist_noheader.csv datanew/companylistnoheader.csv
+	
+21. hadoop fs -df -h (df : disk free)
+
+22. hdfs fsck datanew/companylistnoheader.csv -files -blocks -locations (file system check)
+
+
+	
